@@ -1,3 +1,4 @@
+// src/context/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import authService from '../services/authService';
 
@@ -57,9 +58,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    setLoading(true); // Set loading to true before logout
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
+    setLoading(false); // Set loading to false after logout
   };
 
   const value = {

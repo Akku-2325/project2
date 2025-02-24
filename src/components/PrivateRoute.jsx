@@ -3,8 +3,8 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-function PrivateRoute({ children }) {
-  const { user, loading } = useAuth(); // Remove token
+function PrivateRoute({ children, redirectTo = "/auth", message = null }) {
+  const { user, loading } = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -12,10 +12,16 @@ function PrivateRoute({ children }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return (
+      <Navigate
+        to={{
+          pathname: redirectTo,
+          state: { from: location, message: message },
+        }}
+      />
+    );
   }
 
-  // If the user is authenticated, render the children
   return children;
 }
 
