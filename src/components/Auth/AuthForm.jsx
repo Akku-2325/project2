@@ -106,15 +106,21 @@ function AuthForm() {
     e.preventDefault();
     if (validateForm()) {
       try {
+        let userData;
         if (isLogin) {
-          await login(email, password);
+          userData = await login(email, password);
         } else {
           await register(username, email, password);
-          await login(email, password); // Auto-login after registration
+          userData = await login(email, password); // Auto-login after registration
         }
 
-        const redirectPath = location.state?.from?.pathname || '/';
-        navigate(redirectPath);
+        // Check user role and redirect accordingly
+        if (userData.role === 'admin') {
+          navigate('/admin');
+        } else {
+          const redirectPath = location.state?.from?.pathname || '/';
+          navigate(redirectPath);
+        }
       } catch (error) {
         console.error('Authentication failed:', error);
         if (error.message === 'Email is already registered') {
@@ -125,7 +131,7 @@ function AuthForm() {
       }
     }
   };
-
+  
   const switchForm = () => {
     setIsLogin(!isLogin);
     setUsernameError('');

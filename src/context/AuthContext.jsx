@@ -1,5 +1,5 @@
 // src/context/AuthContext.jsx
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import authService from '../services/authService';
 
 const AuthContext = createContext();
@@ -29,21 +29,22 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     try {
       const response = await authService.login(email, password);
       const { token, user: userData } = response;
       localStorage.setItem('token', token);
       setToken(token);
       setUser(userData);
+      console.log("User data after login:", userData); // Add this line
       return userData;
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
     }
-  };
+  }, []);
 
-  const register = async (username, email, password) => {
+  const register = useCallback(async (username, email, password) => {
     try {
       const response = await authService.register(username, email, password);
       const { token, user: userData } = response;
@@ -55,15 +56,15 @@ export const AuthProvider = ({ children }) => {
       console.error("Registration failed:", error);
       throw error;
     }
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setLoading(true); // Set loading to true before logout
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
     setLoading(false); // Set loading to false after logout
-  };
+  }, []);
 
   const value = {
     user,

@@ -30,7 +30,7 @@ function HomePage() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/auth');
   };
 
   return (

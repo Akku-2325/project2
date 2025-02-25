@@ -3,33 +3,34 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
+import { theme } from '../utils/theme'; // Импортируем theme
 
 const NavContainer = styled.nav`
-  background-color: #f8f9fa;
-  padding: 10px;
+  background-color: ${theme.colors.primary};
+  padding: ${theme.spacing.medium};
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
 
 const StyledNavLink = styled(NavLink)`
-  color: #007bff;
+  color: ${theme.colors.secondary};
   text-decoration: none;
-  padding: 5px 10px;
+  padding: ${theme.spacing.small} ${theme.spacing.medium};
 
   &.active {
     font-weight: bold;
   }
 
   &:hover {
-    background-color: #e9ecef;
+    background-color: ${theme.colors.accent};
   }
 `;
 
 const LogoutButton = styled.button`
-  padding: 5px 10px;
-  background-color: #dc3545;
-  color: white;
+  padding: ${theme.spacing.small} ${theme.spacing.medium};
+  background-color: ${theme.colors.error};
+  color: ${theme.colors.secondary};
   border: none;
   cursor: pointer;
 `;
@@ -47,12 +48,18 @@ function Navbar() {
     <>
       {user && (
         <NavContainer>
-          <StyledNavLink to="/" end>
-            Home
-          </StyledNavLink>
-          <StyledNavLink to="/products">Products</StyledNavLink>
-          <StyledNavLink to="/profile">Profile</StyledNavLink>
-          <StyledNavLink to="/cart">Cart</StyledNavLink>
+          {user.role === 'admin' ? (
+            <StyledNavLink to="/admin">Admin Panel</StyledNavLink>
+          ) : (
+            <>
+              <StyledNavLink to="/" end>
+                Home
+              </StyledNavLink>
+              <StyledNavLink to="/products">Products</StyledNavLink>
+              <StyledNavLink to="/profile">Profile</StyledNavLink>
+              <StyledNavLink to="/cart">Cart</StyledNavLink>
+            </>
+          )}
           <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
         </NavContainer>
       )}
