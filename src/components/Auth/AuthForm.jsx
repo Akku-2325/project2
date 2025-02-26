@@ -9,31 +9,40 @@ const AuthFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin: 50px auto; /* Centered vertically and horizontally with top margin */
+  padding: 30px; /* Increased padding */
+  border: 1px solid #ced4da; /* Softer border color */
+  border-radius: 8px; /* Slightly more rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background-color: #f8f9fa; /* Light background color */
 `;
 
 const Input = styled.input`
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin-bottom: 15px; /* Increased margin */
+  padding: 12px; /* Increased padding */
+  border: 1px solid #ced4da;
+  border-radius: 6px; /* Slightly more rounded corners */
+  font-size: 16px; /* Increased font size */
+  color: #495057; /* Darker text color */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Smooth transition */
 
   &:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #80bdff; /* Focus color */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus shadow */
   }
 `;
 
 const Button = styled.button`
-  padding: 10px;
+  padding: 12px 20px; /* Increased padding */
+  font-size: 16px; /* Increased font size */
   background-color: ${props => (props.isLogin ? '#007bff' : '#28a745')};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px; /* Slightly more rounded corners */
   cursor: pointer;
+  transition: background-color 0.15s ease-in-out; /* Smooth transition */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 
   &:hover {
     background-color: ${props => (props.isLogin ? '#0056b3' : '#218838')};
@@ -46,10 +55,10 @@ const Button = styled.button`
 `;
 
 const ErrorMessage = styled.div`
-  color: red;
-  font-size: 0.8em;
-  margin-top: -5px;
-  margin-bottom: 10px;
+  color: #dc3545; /* Red error color */
+  font-size: 0.9em; /* Slightly larger error font */
+  margin-top: -10px; /* Adjusted margin */
+  margin-bottom: 15px; /* Increased margin */
 `;
 
 const SwitchFormButton = styled.button`
@@ -57,12 +66,15 @@ const SwitchFormButton = styled.button`
   border: none;
   color: #007bff;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px; /* Increased margin */
   padding: 0;
-  text-decoration: underline;
+  text-decoration: none; /* Remove underline */
+  font-size: 14px; /* Adjusted font size */
+  transition: color 0.15s ease-in-out; /* Smooth transition */
 
   &:hover {
     color: #0056b3;
+    text-decoration: underline; /* Add underline on hover */
   }
 `;
 

@@ -1,9 +1,7 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
-import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import ProductsPage from './pages/ProductsPage';
 import PrivateRoute from './components/PrivateRoute';
@@ -11,9 +9,9 @@ import Navbar from './components/Navbar';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import AuthForm from './components/Auth/AuthForm';
 import ProductDetails from './components/Product/ProductDetails';
-import Cart from './components/Cart/Cart';
 import AdminPanel from './pages/AdminPanel';
-import { theme } from './utils/theme'; // Импортируем theme
+import CheckoutPage from './components/CheckoutPage'; // Import CheckoutPage
+import { theme } from './utils/theme';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -22,14 +20,14 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${theme.colors.secondary};
     margin: 0;
     padding: 0;
-    line-height: 1.6; /* Увеличим межстрочный интервал */
-    -webkit-font-smoothing: antialiased; /* Улучшим отображение шрифтов */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: ${theme.fonts.secondary};
-    font-weight: normal; /* Уберем жирный шрифт по умолчанию */
+    font-weight: normal;
     margin-bottom: ${theme.spacing.medium};
   }
 
@@ -55,7 +53,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  /* Стили для модальных окон */
   .modal-backdrop {
     position: fixed;
     top: 0;
@@ -66,7 +63,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Убедимся, что модальное окно всегда сверху */
+    z-index: 1000;
   }
 
   .modal-content {
@@ -74,15 +71,15 @@ const GlobalStyle = createGlobalStyle`
     border-radius: ${theme.borderRadius};
     box-shadow: ${theme.boxShadow};
     padding: ${theme.spacing.xlarge};
-    max-width: 90%; /* Ограничим ширину модального окна */
+    max-width: 90%;
     max-height: 90%;
-    overflow: auto; /* Добавим прокрутку, если контент не помещается */
+    overflow: auto;
   }
 `;
 
 const AppContainer = styled.div`
   text-align: center;
-  padding: ${theme.spacing.large}; /* Add padding to the main container */
+  padding: ${theme.spacing.large};
 `;
 
 function App() {
@@ -96,19 +93,13 @@ function App() {
               <Navbar />
               <Routes>
                 <Route path="/auth" element={<AuthForm />} />
-                <Route
-                  path="/"
-                  element={<PrivateRoute><HomePage /></PrivateRoute>}
-                />
-                <Route
+                <Route path="/" element={<ProductsPage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                 <Route
                   path="/profile"
-                  element={<PrivateRoute><ProfilePage /></PrivateRoute>}
-                />
-                <Route
-                  path="/products"
                   element={
-                    <PrivateRoute redirectTo="/auth" message="You must log in to view products.">
-                      <ProductsPage />
+                    <PrivateRoute redirectTo="/auth" message="You must log in to view your profile.">
+                      <ProfilePage />
                     </PrivateRoute>
                   }
                 />
@@ -121,10 +112,10 @@ function App() {
                   }
                 />
                 <Route
-                  path="/cart"
+                  path="/checkout"
                   element={
-                    <PrivateRoute redirectTo="/auth" message="You must log in to view your cart.">
-                      <Cart />
+                    <PrivateRoute redirectTo="/auth" message="You must log in to checkout.">
+                      <CheckoutPage />
                     </PrivateRoute>
                   }
                 />

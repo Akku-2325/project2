@@ -7,7 +7,7 @@ function PrivateRoute({ children, redirectTo = "/auth", message = null }) {
   const location = useLocation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return null; //  или <LoadingIndicator />
   }
 
   if (!user) {

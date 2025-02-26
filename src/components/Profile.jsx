@@ -1,16 +1,21 @@
-// src/components/Profile.jsx
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext'; // Импортируем AuthContext
+import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
+import { theme } from '../utils/theme'; // Импортируем theme
 
 const ProfileContainer = styled.div`
-  padding: 20px;
+  padding: ${theme.spacing.xlarge};
+  text-align: center;
+  background-color: ${theme.colors.secondary};
 `;
 
 const ProfileInfo = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.large};
+  border: 1px solid ${theme.colors.accentLight};
+  padding: ${theme.spacing.medium};
+  border-radius: ${theme.borderRadius};
 `;
 
 const FormContainer = styled.div`
@@ -18,45 +23,49 @@ const FormContainer = styled.div`
   flex-direction: column;
   width: 300px;
   margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: ${theme.spacing.large};
+  border: 1px solid ${theme.colors.accentLight};
+  border-radius: ${theme.borderRadius};
+  background-color: white;
 `;
 
 const Input = styled.input`
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin-bottom: ${theme.spacing.small};
+  padding: ${theme.spacing.small};
+  border: 1px solid ${theme.colors.accentLight};
+  border-radius: ${theme.borderRadius};
+  font-size: ${theme.fontSizes.medium};
 
   &:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: ${theme.colors.accent};
   }
 `;
 
 const Button = styled.button`
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
+  padding: ${theme.spacing.medium};
+  background-color: ${theme.colors.primary};
+  color: ${theme.colors.secondary};
   border: none;
-  border-radius: 4px;
+  border-radius: ${theme.borderRadius};
   cursor: pointer;
+  font-size: ${theme.fontSizes.medium};
+  transition: ${theme.transition};
 
   &:hover {
-    background-color: #0056b3;
+    background-color: ${theme.colors.primaryDark};
   }
 `;
 
 const ErrorMessage = styled.div`
-  color: red;
-  font-size: 0.8em;
-  margin-top: -5px;
-  margin-bottom: 10px;
+  color: ${theme.colors.error};
+  font-size: ${theme.fontSizes.small};
+  margin-top: -${theme.spacing.xsmall};
+  margin-bottom: ${theme.spacing.small};
 `;
 
 function Profile() {
-  const { user, token, loading: authLoading } = useAuth(); // Теперь получаем и токен
+  const { user, token, loading: authLoading } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -70,18 +79,16 @@ function Profile() {
       setLoading(true);
       setError(null);
       try {
-        //Проверка наличия токена и пользователя
         if (!token || !user) {
           throw new Error("No token available or user not logged in");
         }
         const response = await fetch(`${process.env.REACT_APP_API_URL}/users/profile`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Добавляем токен в заголовок
+            Authorization: `Bearer ${token}`,
           },
         });
 
         if (!response.ok) {
-          //Если ошибка 401, перенаправляем на страницу логина
           if (response.status === 401) {
             navigate("/auth");
           }
@@ -101,7 +108,7 @@ function Profile() {
     };
 
     fetchProfile();
-  }, [token, user, navigate]); // Зависимость от токена, user и navigate
+  }, [token, user, navigate]);
 
   const validateForm = () => {
     let isValid = true;
